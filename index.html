@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Friend Gacha</title>
+  <title>Gachapon Machine</title>
   <style>
     body {
       display: flex;
@@ -93,11 +93,11 @@
 
   <script>
     var capsulePrizes = [
-      { name: "Astrid", age: 25, sex: "Male", location: "New York" },
-      { name: "Yuki", age: 30, sex: "Female", location: "London" },
+      { name: "Trump", age: 25, sex: "Male", location: "New York" },
+      { name: "Yukiko", age: 30, sex: "Female", location: "London" },
       { name: "Cannon", age: 20, sex: "Male", location: "Tokyo" },
-      { name: "Clinton", age: 35, sex: "Female", location: "Paris" },
-      { name: "Trump", age: 28, sex: "Male", location: "Berlin" }
+      { name: "Astrid", age: 35, sex: "Female", location: "Paris" },
+      { name: "Clinton", age: 28, sex: "Male", location: "Berlin" }
     ];
     var payButtonClicked = false;
 
@@ -166,6 +166,25 @@
       var popup = document.getElementById("popup");
       popup.style.display = "none";
     }
+    function showPopup(message) {
+  var popup = document.getElementById("popup");
+  var popupContent = document.getElementById("popupContent");
+  popupContent.innerText = message;
+  popup.style.display = "flex";
+}
+
+function closePopup() {
+  var popup = document.getElementById("popup");
+  popup.style.display = "none";
+}
+
+// Close popup when clicking anywhere on the page
+document.addEventListener("click", function(event) {
+  var popup = document.getElementById("popup");
+  if (event.target === popup) {
+    closePopup();
+  }
+});
   </script>
 </body>
 </html>
