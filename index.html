@@ -41,24 +41,64 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
+      cursor: pointer;
+    }
+
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .popup-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <h1>Friend Gacha</h1>
   <div class="container">
-    <label for="prizeInput">Enter your IG handle:</label>
+    <label for="prizeInput">Add your instagram:</label>
     <input type="text" id="prizeInput">
     <button onclick="addPrize()">Add</button>
   </div>
   <div class="container">
     <button id="payBtn" onclick="enableDispenseButton()">Pay</button>
-    <button id="dispenseBtn" onclick="dispenseCapsule()" disabled>Meet Someone New!</button>
+    <button id="dispenseBtn" onclick="dispenseCapsule()" disabled>Meet someone new !</button>
     <div class="prizes-container" id="capsuleContainer"></div>
+  </div>
+  <div class="popup" id="popup" style="display: none;">
+    <div class="popup-content" id="popupContent">
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
   </div>
 
   <script>
-    var capsulePrizes = ["@Astrid", "@Yuki", "@Cannon", "@Trump", "@Clinton"];
+    var capsulePrizes = [
+      { name: "Astrid", age: 25, sex: "Male", location: "New York" },
+      { name: "Yuki", age: 30, sex: "Female", location: "London" },
+      { name: "Cannon", age: 20, sex: "Male", location: "Tokyo" },
+      { name: "Clinton", age: 35, sex: "Female", location: "Paris" },
+      { name: "Trump", age: 28, sex: "Male", location: "Berlin" }
+    ];
     var payButtonClicked = false;
 
     function getRandomPrize() {
@@ -72,7 +112,7 @@
       var prizeInput = document.getElementById("prizeInput");
       var newPrize = prizeInput.value.trim();
       if (newPrize !== "") {
-        capsulePrizes.push(newPrize);
+        capsulePrizes.push({ name: newPrize });
         prizeInput.value = "";
         console.log("New prize added:", newPrize);
       }
@@ -85,7 +125,7 @@
     }
 
     function dispenseCapsule() {
-      if (!payButtonClicked) {
+      if(!payButtonClicked) {
         return; // Exit the function if pay button is not clicked
       }
 
@@ -95,16 +135,36 @@
       var capsuleContainer = document.getElementById("capsuleContainer");
       var capsule = document.createElement("div");
       capsule.className = "capsule";
-      capsule.textContent = getRandomPrize();
+      var prize = getRandomPrize();
+      capsule.textContent = prize.name;
+      capsule.addEventListener("click", function() {
+        showPrizeDetails(prize);
+      });
+
       capsuleContainer.appendChild(capsule);
 
       if (capsulePrizes.length === 0) {
-        dispenseBtn.disabled = true; // Disable the button when all prizes are dispensed
-      } else {
-        setTimeout(function() {
-          dispenseBtn.disabled = false; // Enable the button after capsule is dispensed
-        }, 2000); // Adjust the delay as needed
+        dispenseBtn.disabled = true; // Disable the button when no more prizes are available
       }
+    }
+
+    function showPrizeDetails(prize) {
+      var popup = document.getElementById("popup");
+      var popupContent = document.getElementById("popupContent");
+      popupContent.innerHTML = `
+      <h2>Prize Details</h2>
+      <p>Name: ${prize.name}</p>
+      <p>Age: ${prize.age}</p>
+      <p>Sex: ${prize.sex}</p>
+      <p>Location: ${prize.location}</p>
+      `;
+
+      popup.style.display = "flex";
+    }
+
+    function closePopup() {
+      var popup = document.getElementById("popup");
+      popup.style.display = "none";
     }
   </script>
 </body>
