@@ -24,6 +24,12 @@
       margin-top: 20px;
     }
 
+    .prizes-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
     .capsule {
       width: 100%;
       max-width: 200px;
@@ -46,12 +52,14 @@
     <button onclick="addPrize()">Add</button>
   </div>
   <div class="container">
-    <button id="dispenseBtn" onclick="dispenseCapsule()">Dispense a capsule</button>
-    <div id="capsuleContainer"></div>
+    <button id="payBtn" onclick="enableDispenseButton()">Pay</button>
+    <button id="dispenseBtn" onclick="dispenseCapsule()" disabled>Dispense a capsule</button>
+    <div class="prizes-container" id="capsuleContainer"></div>
   </div>
 
   <script>
     var capsulePrizes = ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5"];
+    var payButtonClicked = false;
 
     function getRandomPrize() {
       var randomIndex = Math.floor(Math.random() * capsulePrizes.length);
@@ -70,7 +78,17 @@
       }
     }
 
+    function enableDispenseButton() {
+      payButtonClicked = true;
+      var dispenseBtn = document.getElementById("dispenseBtn");
+      dispenseBtn.disabled = false;
+    }
+
     function dispenseCapsule() {
+      if (!payButtonClicked) {
+        return; // Exit the function if pay button is not clicked
+      }
+
       var dispenseBtn = document.getElementById("dispenseBtn");
       dispenseBtn.disabled = true; // Disable the button during capsule dispensing
 
