@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gachapon Machine</title>
+  <style>
+    .capsule {
+      width: 50px;
+      height: 50px;
+      background-color: #eaeaea;
+      border-radius: 50%;
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gachapon Machine</h1>
+  <div>
+    <label for="prizeInput">Add Prize:</label>
+    <input type="text" id="prizeInput">
+    <button onclick="addPrize()">Add</button>
+  </div>
+  <button id="dispenseBtn" onclick="dispenseCapsule()">Dispense a capsule</button>
+  <div id="capsuleContainer"></div>
+
+  <script>
+    var capsulePrizes = ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5"];
+
+    function getRandomPrize() {
+      var randomIndex = Math.floor(Math.random() * capsulePrizes.length);
+      var prize = capsulePrizes[randomIndex];
+      capsulePrizes.splice(randomIndex, 1); // Remove the chosen prize from the array
+      return prize;
+    }
+
+    function addPrize() {
+      var prizeInput = document.getElementById("prizeInput");
+      var newPrize = prizeInput.value.trim();
+      if (newPrize !== "") {
+        capsulePrizes.push(newPrize);
+        prizeInput.value = "";
+        console.log("New prize added:", newPrize);
+      }
+    }
+
+    function dispenseCapsule() {
+      var dispenseBtn = document.getElementById("dispenseBtn");
+      dispenseBtn.disabled = true; // Disable the button during capsule dispensing
+
+      var capsuleContainer = document.getElementById("capsuleContainer");
+      var capsule = document.createElement("div");
+      capsule.className = "capsule";
+      capsule.textContent = getRandomPrize();
+      capsuleContainer.appendChild(capsule);
+
+      if (capsulePrizes.length === 0) {
+        dispenseBtn.disabled = true; // Disable the button when all prizes are dispensed
+      } else {
+        setTimeout(function() {
+          dispenseBtn.disabled = false; // Enable the button after capsule is dispensed
+        }, 2000); // Adjust the delay as needed
+      }
+    }
+  </script>
+</body>
+</html>
