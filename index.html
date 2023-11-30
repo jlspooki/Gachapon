@@ -3,11 +3,33 @@
 <head>
   <title>Gachapon Machine</title>
   <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
     .capsule {
-      width: 50px;
-      height: 50px;
+      width: 100%;
+      max-width: 200px;
+      height: 100px;
       background-color: #eaeaea;
-      border-radius: 50%;
+      border-radius: 50px;
       margin: 10px;
       display: flex;
       align-items: center;
@@ -18,13 +40,15 @@
 </head>
 <body>
   <h1>Gachapon Machine</h1>
-  <div>
+  <div class="container">
     <label for="prizeInput">Add Prize:</label>
     <input type="text" id="prizeInput">
     <button onclick="addPrize()">Add</button>
   </div>
-  <button id="dispenseBtn" onclick="dispenseCapsule()">Dispense a capsule</button>
-  <div id="capsuleContainer"></div>
+  <div class="container">
+    <button id="dispenseBtn" onclick="dispenseCapsule()">Dispense a capsule</button>
+    <div id="capsuleContainer"></div>
+  </div>
 
   <script>
     var capsulePrizes = ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5"];
